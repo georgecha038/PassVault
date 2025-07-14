@@ -1,0 +1,12 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // WARNING: These rules are insecure and are intended for prototyping.
+    // Before deploying to production, you should implement proper authentication
+    // and secure these rules to only allow authorized users access to their own data.
+    match /passwords/{passwordId} {
+      allow read, write: if true;
+    }
+  }
+}
