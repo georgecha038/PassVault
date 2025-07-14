@@ -54,7 +54,7 @@ export function PasswordList() {
       <Card className="shadow-lg">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-xl sm:text-2xl font-bold">Your Passwords</CardTitle>
-          <Button onClick={() => setAddDialogOpen(true)} size="sm" className="sm:size-auto">
+          <Button onClick={() => setAddDialogOpen(true)} size="sm" className="sm:size-auto py-2">
             <PlusCircle className="mr-0 sm:mr-2 h-4 w-4" />
             <span className="hidden sm:inline">Add New</span>
           </Button>
