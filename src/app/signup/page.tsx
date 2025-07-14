@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/context/auth-context";
 import { useForm } from "react-hook-form";
@@ -11,20 +11,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Lock, AlertCircle } from "lucide-react";
+import { UserPlus, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
-  password: z.string().min(1, { message: "Password is required." }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
 });
 
-export default function LoginPage() {
-  const { user, loading, signInWithEmail } = useAuth();
+export default function SignupPage() {
+  const { user, loading, signUpWithEmail } = useAuth();
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [error, setError] = useState<string | null>(null);
-  const [showSuccess, setShowSuccess] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,19 +36,15 @@ export default function LoginPage() {
     if (!loading && user) {
       router.push("/");
     }
-    if (searchParams.get('signup') === 'success') {
-      setShowSuccess(true);
-    }
-  }, [user, loading, router, searchParams]);
-  
+  }, [user, loading, router]);
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setError(null);
-    const err = await signInWithEmail(values.email, values.password);
+    const err = await signUpWithEmail(values.email, values.password);
     if (err) {
       setError(err);
     }
   };
-
 
   if (loading || user) {
     return (
@@ -65,29 +59,20 @@ export default function LoginPage() {
       <Card className="w-full max-w-sm shadow-2xl">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-            <Lock className="h-10 w-10 text-primary" />
+            <UserPlus className="h-10 w-10 text-primary" />
           </div>
-          <CardTitle className="text-2xl font-bold">PassVault</CardTitle>
+          <CardTitle className="text-2xl font-bold">Create an Account</CardTitle>
           <CardDescription>
-            Secure your digital life. Sign in to continue.
+            Join PassVault to secure your passwords.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-               {showSuccess && (
-                <Alert variant="default" className="bg-green-500/10 border-green-500/50">
-                  <AlertCircle className="h-4 w-4 text-green-500" />
-                  <AlertTitle className="text-green-400">Signup Successful!</AlertTitle>
-                  <AlertDescription>
-                    You can now log in with your new account.
-                  </AlertDescription>
-                </Alert>
-              )}
               {error && (
                 <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Login Failed</AlertTitle>
+                  <AlertTitle>Signup Failed</AlertTitle>
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
@@ -118,16 +103,16 @@ export default function LoginPage() {
                 )}
               />
               <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                {form.formState.isSubmitting ? "Signing In..." : "Sign In"}
+                {form.formState.isSubmitting ? "Creating Account..." : "Sign Up"}
               </Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter className="justify-center text-sm">
           <p className="text-muted-foreground">
-            Don't have an account?{" "}
-            <Link href="/signup" className="font-semibold text-primary hover:underline">
-              Sign Up
+            Already have an account?{" "}
+            <Link href="/login" className="font-semibold text-primary hover:underline">
+              Sign In
             </Link>
           </p>
         </CardFooter>
