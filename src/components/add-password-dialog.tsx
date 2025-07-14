@@ -50,12 +50,7 @@ export function AddPasswordDialog({
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: passwordEntry ? {
-        siteName: passwordEntry.siteName,
-        website: passwordEntry.website,
-        username: passwordEntry.username,
-        password: passwordEntry.password,
-    } : {
+    defaultValues: {
       siteName: "",
       website: "",
       username: "",
@@ -165,7 +160,7 @@ export function AddPasswordDialog({
             
             <PasswordGenerator onPasswordGenerated={handleGeneratedPassword} />
 
-            <DialogFooter className="flex-col-reverse sm:flex-row sm:justify-end gap-2">
+            <DialogFooter className="flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-4">
               <Button type="button" variant="secondary" onClick={onClose} className="w-full sm:w-auto">Cancel</Button>
               <Button type="submit" className="w-full sm:w-auto">Save</Button>
             </DialogFooter>
