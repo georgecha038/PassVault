@@ -1,13 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { Lock, ShieldCheck } from "lucide-react";
+import { Lock, ShieldCheck, LogOut } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/auth-context";
 
 export function Header() {
   const pathname = usePathname();
+  const { user, logout } = useAuth();
+
+  if (!user) return null;
 
   return (
     <header className="border-b">
@@ -29,6 +33,14 @@ export function Header() {
               <ShieldCheck className="h-4 w-4" />
               <span className="hidden sm:inline">Strength Checker</span>
             </Link>
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={logout}
+            className="shrink-0"
+          >
+            <LogOut className="h-4 w-4" />
+            <span className="hidden sm:inline">Logout</span>
           </Button>
         </nav>
       </div>
