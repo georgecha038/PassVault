@@ -143,9 +143,9 @@ export function AddPasswordDialog({
             
             <PasswordGenerator onPasswordGenerated={handleGeneratedPassword} />
 
-            <DialogFooter>
-              <Button type="button" variant="secondary" onClick={onClose}>Cancel</Button>
-              <Button type="submit">Save</Button>
+            <DialogFooter className="flex-col-reverse sm:flex-row sm:justify-end gap-2">
+              <Button type="button" variant="secondary" onClick={onClose} className="w-full sm:w-auto">Cancel</Button>
+              <Button type="submit" className="w-full sm:w-auto">Save</Button>
             </DialogFooter>
           </form>
         </Form>

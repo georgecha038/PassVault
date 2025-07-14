@@ -124,7 +124,7 @@ export function PasswordGenerator({ onPasswordGenerated }: PasswordGeneratorProp
              {generatedPassword && (
                 <div className="space-y-2">
                     <div className="relative">
-                        <Input value={generatedPassword} readOnly className="pr-10 font-mono" />
+                        <Input value={generatedPassword} readOnly className="pr-10 font-mono text-sm sm:text-base" />
                         <Button type="button" size="icon" variant="ghost" className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2" onClick={copyToClipboard}>
                             <ClipboardCopy className="h-4 w-4" />
                         </Button>

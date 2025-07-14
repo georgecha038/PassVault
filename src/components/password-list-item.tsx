@@ -27,18 +27,18 @@ export default function PasswordListItem({ password, onView }: PasswordListItemP
   }
 
   return (
-    <div className="flex items-center justify-between rounded-lg border p-4 transition-colors hover:bg-secondary/50">
-      <div className="flex items-center gap-4">
+    <div className="flex items-center justify-between rounded-lg border p-3 sm:p-4 transition-colors hover:bg-secondary/50">
+      <div className="flex items-center gap-3 sm:gap-4 overflow-hidden">
         <Avatar>
           <AvatarImage src={getFaviconUrl(password.website)} alt={password.website} />
           <AvatarFallback>{getInitials(password.website)}</AvatarFallback>
         </Avatar>
-        <div>
-          <p className="font-semibold">{password.website}</p>
-          <p className="text-sm text-muted-foreground">{password.username}</p>
+        <div className="truncate">
+          <p className="font-semibold truncate">{password.website}</p>
+          <p className="text-sm text-muted-foreground truncate">{password.username}</p>
         </div>
       </div>
-      <Button variant="outline" onClick={onView}>
+      <Button variant="outline" onClick={onView} size="sm">
         View
       </Button>
     </div>

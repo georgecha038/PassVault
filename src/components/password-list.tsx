@@ -50,13 +50,13 @@ export function PasswordList() {
   }
 
   return (
-    <div className="container mx-auto max-w-4xl py-8 px-4 md:px-6">
+    <div className="container mx-auto max-w-4xl py-4 sm:py-8 px-4 md:px-6">
       <Card className="shadow-lg">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-2xl font-bold">Your Passwords</CardTitle>
-          <Button onClick={() => setAddDialogOpen(true)}>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Add New
+          <CardTitle className="text-xl sm:text-2xl font-bold">Your Passwords</CardTitle>
+          <Button onClick={() => setAddDialogOpen(true)} size="sm" className="sm:size-auto">
+            <PlusCircle className="mr-0 sm:mr-2 h-4 w-4" />
+            <span className="hidden sm:inline">Add New</span>
           </Button>
         </CardHeader>
         <CardContent>
@@ -83,12 +83,12 @@ export function PasswordList() {
                 />
               ))
             ) : (
-              <div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed p-12 text-center">
+              <div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed p-8 sm:p-12 text-center">
                 <div className="rounded-full border border-dashed bg-secondary p-4">
                   <KeyRound className="h-12 w-12 text-muted-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold">No Passwords Saved</h3>
-                <p className="text-muted-foreground">
+                <h3 className="text-lg sm:text-xl font-semibold">No Passwords Saved</h3>
+                <p className="text-muted-foreground text-sm sm:text-base">
                   Click "Add New" to save your first password.
                 </p>
               </div>

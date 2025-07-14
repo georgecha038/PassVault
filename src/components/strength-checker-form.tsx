@@ -65,14 +65,14 @@ export function StrengthCheckerForm() {
   return (
     <div className="space-y-6">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <Input
             type="text"
             placeholder="Enter a password to analyze"
             {...register("password", { required: "Password is required" })}
             className="text-lg"
           />
-          <Button type="submit" disabled={isLoading} className="min-w-[120px]">
+          <Button type="submit" disabled={isLoading} className="min-w-[120px] w-full sm:w-auto">
             {isLoading ? <Loader2 className="animate-spin" /> : "Analyze"}
           </Button>
         </div>
@@ -92,9 +92,9 @@ export function StrengthCheckerForm() {
       {analysis && (
         <div className="space-y-4">
             <Alert className={cn("border-2", getStrengthBorderClass(analysis.strength))}>
-                <div className="flex items-center justify-between">
-                    <AlertTitle className="text-xl">Analysis Result</AlertTitle>
-                    <Badge className={cn(getStrengthBadgeClass(analysis.strength))}>{analysis.strength}</Badge>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                    <AlertTitle className="text-lg sm:text-xl">Analysis Result</AlertTitle>
+                    <Badge className={cn("self-start sm:self-center", getStrengthBadgeClass(analysis.strength))}>{analysis.strength}</Badge>
                 </div>
                 <AlertDescription className="mt-4">
                     <p className="font-semibold mb-2">Suggestions for improvement:</p>

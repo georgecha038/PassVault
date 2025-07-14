@@ -66,7 +66,7 @@ export function ViewPasswordDialog({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{passwordEntry.website}</DialogTitle>
+          <DialogTitle className="truncate">{passwordEntry.website}</DialogTitle>
           <DialogDescription>
             Viewing credentials. Be careful where you display this information.
           </DialogDescription>
@@ -75,7 +75,7 @@ export function ViewPasswordDialog({
           <div className="space-y-2">
             <Label htmlFor="username">Username</Label>
             <div className="relative">
-              <Input id="username" value={passwordEntry.username} readOnly />
+              <Input id="username" value={passwordEntry.username} readOnly className="truncate" />
               <Button
                 size="icon"
                 variant="ghost"
@@ -116,10 +116,10 @@ export function ViewPasswordDialog({
             </div>
           </div>
         </div>
-        <DialogFooter className="justify-between sm:justify-between">
+        <DialogFooter className="flex-col-reverse sm:flex-row sm:justify-between gap-2">
             <AlertDialog>
                 <AlertDialogTrigger asChild>
-                    <Button variant="destructive">
+                    <Button variant="destructive" className="w-full sm:w-auto">
                         <Trash2 className="mr-2 h-4 w-4" /> Delete
                     </Button>
                 </AlertDialogTrigger>
@@ -136,13 +136,13 @@ export function ViewPasswordDialog({
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
-            <div className="flex gap-2">
-              <Button variant="secondary" onClick={onEdit}>
+            <div className="flex flex-col-reverse sm:flex-row gap-2">
+              <DialogClose asChild>
+                <Button variant="secondary" className="w-full sm:w-auto">Close</Button>
+              </DialogClose>
+              <Button onClick={onEdit} className="w-full sm:w-auto">
                 <Pencil className="mr-2 h-4 w-4" /> Edit
               </Button>
-              <DialogClose asChild>
-                <Button>Close</Button>
-              </DialogClose>
             </div>
         </DialogFooter>
       </DialogContent>
