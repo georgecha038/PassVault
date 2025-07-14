@@ -1,0 +1,46 @@
+import type { PasswordEntry } from "@/types";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+interface PasswordListItemProps {
+  password: PasswordEntry;
+  onView: () => void;
+}
+
+export default function PasswordListItem({ password, onView }: PasswordListItemProps) {
+  const getFaviconUrl = (url: string) => {
+    try {
+      const urlObject = new URL(url);
+      return `https://www.google.com/s2/favicons?domain=${urlObject.hostname}&sz=64`;
+    } catch (error) {
+      return `https://www.google.com/s2/favicons?domain=${password.website}&sz=64`;
+    }
+  };
+
+  const getInitials = (website: string) => {
+    try {
+      const url = new URL(website);
+      return url.hostname.charAt(0).toUpperCase();
+    } catch {
+      return website.charAt(0).toUpperCase() || 'W';
+    }
+  }
+
+  return (
+    <div className="flex items-center justify-between rounded-lg border p-4 transition-colors hover:bg-secondary/50">
+      <div className="flex items-center gap-4">
+        <Avatar>
+          <AvatarImage src={getFaviconUrl(password.website)} alt={password.website} />
+          <AvatarFallback>{getInitials(password.website)}</AvatarFallback>
+        </Avatar>
+        <div>
+          <p className="font-semibold">{password.website}</p>
+          <p className="text-sm text-muted-foreground">{password.username}</p>
+        </div>
+      </div>
+      <Button variant="outline" onClick={onView}>
+        View
+      </Button>
+    </div>
+  );
+}
