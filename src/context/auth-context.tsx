@@ -5,6 +5,8 @@ import {
   onAuthStateChanged, 
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
   signOut, 
   User,
   FirebaseError
@@ -17,6 +19,7 @@ interface AuthContextType {
   loading: boolean;
   signInWithEmail: (email: string, pass: string) => Promise<string | null>;
   signUpWithEmail: (email: string, pass: string) => Promise<string | null>;
+  signInWithGoogle: () => Promise<string | null>;
   logout: () => Promise<void>;
 }
 
@@ -33,6 +36,8 @@ const getFriendlyErrorMessage = (error: FirebaseError): string => {
       return 'This email address is already in use.';
     case 'auth/weak-password':
       return 'The password is too weak. Please use at least 6 characters.';
+    case 'auth/popup-closed-by-user':
+        return 'The sign-in popup was closed. Please try again.';
     default:
       return 'An unexpected error occurred. Please try again.';
   }
@@ -80,6 +85,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  const signInWithGoogle = async (): Promise<string | null> => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      router.push("/");
+      return null;
+    } catch (error) {
+        console.error("Error signing in with Google", error);
+        return getFriendlyErrorMessage(error as FirebaseError);
+    }
+  }
+
   const logout = async () => {
     try {
       await signOut(auth);
@@ -90,7 +107,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signInWithEmail, signUpWithEmail, logout }}>
+    <AuthContext.Provider value={{ user, loading, signInWithEmail, signUpWithEmail, signInWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );
