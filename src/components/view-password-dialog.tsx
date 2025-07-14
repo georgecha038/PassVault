@@ -54,7 +54,7 @@ export function ViewPasswordDialog({
     onDelete(passwordEntry.id)
     toast({
         title: "Password Deleted",
-        description: `Credentials for ${passwordEntry.website} have been deleted.`,
+        description: `Credentials for ${passwordEntry.siteName} have been deleted.`,
         variant: "destructive",
     });
     onClose();
@@ -66,9 +66,9 @@ export function ViewPasswordDialog({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="truncate">{passwordEntry.website}</DialogTitle>
+          <DialogTitle className="truncate">{passwordEntry.siteName}</DialogTitle>
           <DialogDescription>
-            Viewing credentials. Be careful where you display this information.
+            Viewing credentials for {passwordEntry.website}. Be careful where you display this information.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 py-4">
@@ -127,7 +127,7 @@ export function ViewPasswordDialog({
                     <AlertDialogHeader>
                         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                         <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete the password for <strong>{passwordEntry.website}</strong>.
+                            This action cannot be undone. This will permanently delete the password for <strong>{passwordEntry.siteName}</strong>.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>

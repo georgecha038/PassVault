@@ -28,6 +28,7 @@ import { PasswordGenerator } from "./password-generator";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
+  siteName: z.string().min(1, { message: "Site name is required." }),
   website: z.string().url({ message: "Please enter a valid URL." }),
   username: z.string().min(1, { message: "Username is required." }),
   password: z.string().min(1, { message: "Password is required." }),
@@ -50,6 +51,7 @@ export function AddPasswordDialog({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      siteName: "",
       website: "",
       username: "",
       password: "",
@@ -59,12 +61,14 @@ export function AddPasswordDialog({
   useEffect(() => {
     if (passwordEntry && isOpen) {
       form.reset({
+        siteName: passwordEntry.siteName,
         website: passwordEntry.website,
         username: passwordEntry.username,
         password: passwordEntry.password,
       });
     } else if (!passwordEntry && isOpen) {
       form.reset({
+        siteName: "",
         website: "",
         username: "",
         password: "",
@@ -80,7 +84,7 @@ export function AddPasswordDialog({
     }
     toast({
       title: passwordEntry ? "Password Updated" : "Password Saved",
-      description: `Credentials for ${values.website} have been securely saved.`,
+      description: `Credentials for ${values.siteName} have been securely saved.`,
       className: "bg-primary text-primary-foreground",
     });
     onClose();
@@ -103,12 +107,25 @@ export function AddPasswordDialog({
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
+              name="siteName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Site Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g. Google" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="website"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Website URL</FormLabel>
                   <FormControl>
-                    <Input placeholder="https://example.com" {...field} />
+                    <Input placeholder="https://google.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

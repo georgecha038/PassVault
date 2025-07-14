@@ -17,24 +17,19 @@ export default function PasswordListItem({ password, onView }: PasswordListItemP
     }
   };
 
-  const getInitials = (website: string) => {
-    try {
-      const url = new URL(website);
-      return url.hostname.charAt(0).toUpperCase();
-    } catch {
-      return website.charAt(0).toUpperCase() || 'W';
-    }
+  const getInitials = (name: string) => {
+    return name.charAt(0).toUpperCase() || 'S';
   }
 
   return (
     <div className="flex items-center justify-between rounded-lg border p-3 sm:p-4 transition-colors hover:bg-secondary/50">
       <div className="flex items-center gap-3 sm:gap-4 overflow-hidden">
         <Avatar>
-          <AvatarImage src={getFaviconUrl(password.website)} alt={password.website} />
-          <AvatarFallback>{getInitials(password.website)}</AvatarFallback>
+          <AvatarImage src={getFaviconUrl(password.website)} alt={password.siteName} />
+          <AvatarFallback>{getInitials(password.siteName)}</AvatarFallback>
         </Avatar>
         <div className="truncate">
-          <p className="font-semibold truncate">{password.website}</p>
+          <p className="font-semibold truncate">{password.siteName}</p>
           <p className="text-sm text-muted-foreground truncate">{password.username}</p>
         </div>
       </div>
