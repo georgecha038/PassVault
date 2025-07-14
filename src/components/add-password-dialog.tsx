@@ -50,7 +50,12 @@ export function AddPasswordDialog({
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: passwordEntry ? {
+        siteName: passwordEntry.siteName,
+        website: passwordEntry.website,
+        username: passwordEntry.username,
+        password: passwordEntry.password,
+    } : {
       siteName: "",
       website: "",
       username: "",
@@ -59,20 +64,20 @@ export function AddPasswordDialog({
   });
 
   useEffect(() => {
-    if (passwordEntry && isOpen) {
-      form.reset({
-        siteName: passwordEntry.siteName,
-        website: passwordEntry.website,
-        username: passwordEntry.username,
-        password: passwordEntry.password,
-      });
-    } else if (!passwordEntry && isOpen) {
-      form.reset({
-        siteName: "",
-        website: "",
-        username: "",
-        password: "",
-      });
+    if (isOpen) {
+        form.reset(
+            passwordEntry ? {
+                siteName: passwordEntry.siteName,
+                website: passwordEntry.website,
+                username: passwordEntry.username,
+                password: passwordEntry.password,
+            } : {
+                siteName: "",
+                website: "",
+                username: "",
+                password: "",
+            }
+        );
     }
   }, [passwordEntry, form, isOpen]);
 
