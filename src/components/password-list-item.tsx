@@ -18,7 +18,7 @@ export default function PasswordListItem({ password, onView }: PasswordListItemP
   };
 
   const getInitials = (name: string) => {
-    return name.charAt(0).toUpperCase() || 'S';
+    return name?.charAt(0).toUpperCase() || 'S';
   }
 
   return (
