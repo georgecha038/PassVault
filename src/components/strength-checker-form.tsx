@@ -11,13 +11,16 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CheckCircle2, XCircle, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "./ui/badge";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 
 type FormInputs = {
   password: string;
 };
 
 export function StrengthCheckerForm() {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
+  const form = useForm<FormInputs>({
+    defaultValues: { password: "" },
+  });
   const [analysis, setAnalysis] = useState<PasswordStrengthOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -64,22 +67,33 @@ export function StrengthCheckerForm() {
 
   return (
     <div className="space-y-6">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div className="flex flex-col sm:flex-row gap-2">
-          <Input
-            type="text"
-            placeholder="Enter a password to analyze"
-            {...register("password", { required: "Password is required" })}
-            className="text-lg"
-          />
-          <Button type="submit" disabled={isLoading} className="min-w-[120px] w-full sm:w-auto">
-            {isLoading ? <Loader2 className="animate-spin" /> : "Analyze"}
-          </Button>
-        </div>
-        {errors.password && (
-          <p className="text-sm text-destructive">{errors.password.message}</p>
-        )}
-      </form>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <div className="flex flex-col sm:flex-row gap-2">
+            <FormField
+              control={form.control}
+              name="password"
+              rules={{ required: "Password is required" }}
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Enter a password to analyze"
+                      {...field}
+                      className="text-lg"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" disabled={isLoading} className="min-w-[120px] w-full sm:w-auto">
+              {isLoading ? <Loader2 className="animate-spin" /> : "Analyze"}
+            </Button>
+          </div>
+        </form>
+      </Form>
 
       {error && (
         <Alert variant="destructive">
