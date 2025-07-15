@@ -39,6 +39,10 @@ const getFriendlyErrorMessage = (error: FirebaseError): string => {
       return 'The password is too weak. Please use at least 6 characters.';
     case 'auth/popup-closed-by-user':
         return 'The sign-in popup was closed. Please try again.';
+    case 'auth/operation-not-allowed':
+        return 'Email/password accounts are not enabled. Please contact support.';
+    case 'auth/unauthorized-domain':
+        return 'This domain is not authorized for authentication. Please contact support.';
     default:
       return 'An unexpected error occurred. Please try again.';
   }
