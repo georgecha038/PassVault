@@ -93,8 +93,8 @@ export default function LoginPage() {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                {showSuccess && (
-                <Alert variant="default" className="bg-green-500/10 border-green-500/50">
-                  <AlertCircle className="h-4 w-4 text-green-500" />
+                <Alert variant="default" className="bg-green-500/10 border-green-500/50 text-green-500">
+                  <AlertCircle className="h-4 w-4" />
                   <AlertTitle className="text-green-400">Signup Successful!</AlertTitle>
                   <AlertDescription>
                     You can now log in with your new account.
