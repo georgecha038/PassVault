@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import {
   Collapsible,
@@ -22,10 +21,6 @@ type PasswordGeneratorProps = {
 export function PasswordGenerator({ onPasswordGenerated }: PasswordGeneratorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [length, setLength] = useState(16);
-  const [includeUppercase, setIncludeUppercase] = useState(true);
-  const [includeLowercase, setIncludeLowercase] = useState(true);
-  const [includeNumbers, setIncludeNumbers] = useState(true);
-  const [includeSymbols, setIncludeSymbols] = useState(true);
   const [generatedPassword, setGeneratedPassword] = useState("");
   const { toast } = useToast();
 
@@ -35,18 +30,9 @@ export function PasswordGenerator({ onPasswordGenerated }: PasswordGeneratorProp
     const numberChars = "0123456789";
     const symbolChars = "!@#$%^&*()_+~`|}{[]:;?><,./-=";
 
-    let charPool = "";
-    if (includeUppercase) charPool += uppercaseChars;
-    if (includeLowercase) charPool += lowercaseChars;
-    if (includeNumbers) charPool += numberChars;
-    if (includeSymbols) charPool += symbolChars;
+    const charPool = uppercaseChars + lowercaseChars + numberChars + symbolChars;
 
     if (charPool === "") {
-        toast({
-            title: "Error",
-            description: "Please select at least one character type.",
-            variant: "destructive"
-        });
       setGeneratedPassword("");
       return;
     }
@@ -57,7 +43,7 @@ export function PasswordGenerator({ onPasswordGenerated }: PasswordGeneratorProp
       password += charPool[randomIndex];
     }
     setGeneratedPassword(password);
-  }, [length, includeUppercase, includeLowercase, includeNumbers, includeSymbols, toast]);
+  }, [length]);
   
   useEffect(() => {
     generatePassword();
@@ -117,24 +103,7 @@ export function PasswordGenerator({ onPasswordGenerated }: PasswordGeneratorProp
               value={[length]}
               onValueChange={(value) => setLength(value[0])}
           />
-          <div className="grid grid-cols-2 gap-4">
-              <div className="flex items-center space-x-2">
-                  <Switch id="uppercase" checked={includeUppercase} onCheckedChange={setIncludeUppercase} />
-                  <Label htmlFor="uppercase">Uppercase</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                  <Switch id="lowercase" checked={includeLowercase} onCheckedChange={setIncludeLowercase} />
-                  <Label htmlFor="lowercase">Lowercase</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                  <Switch id="numbers" checked={includeNumbers} onCheckedChange={setIncludeNumbers} />
-                  <Label htmlFor="numbers">Numbers</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                  <Switch id="symbols" checked={includeSymbols} onCheckedChange={setIncludeSymbols} />
-                  <Label htmlFor="symbols">Symbols</Label>
-              </div>
-          </div>
+          
           <Button type="button" variant="outline" className="w-full" onClick={generatePassword}>
               <RefreshCw className="mr-2 h-4 w-4" />
               Generate New Password
