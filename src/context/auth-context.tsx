@@ -5,8 +5,6 @@ import {
   onAuthStateChanged, 
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
   signOut, 
   User,
   FirebaseError
@@ -19,7 +17,6 @@ interface AuthContextType {
   loading: boolean;
   signInWithEmail: (email: string, pass: string) => Promise<string | null>;
   signUpWithEmail: (email: string, pass: string) => Promise<string | null>;
-  signInWithGoogle: () => Promise<string | null>;
   logout: () => Promise<void>;
 }
 
@@ -89,17 +86,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const signInWithGoogle = async (): Promise<string | null> => {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-      router.push("/");
-      return null;
-    } catch (error) {
-        return getFriendlyErrorMessage(error as FirebaseError);
-    }
-  }
-
   const logout = async () => {
     try {
       await signOut(auth);
@@ -110,7 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signInWithEmail, signUpWithEmail, signInWithGoogle, logout }}>
+    <AuthContext.Provider value={{ user, loading, signInWithEmail, signUpWithEmail, logout }}>
       {children}
     </AuthContext.Provider>
   );

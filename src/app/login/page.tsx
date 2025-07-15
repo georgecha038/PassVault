@@ -13,24 +13,14 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Lock, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Separator } from "@/components/ui/separator";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
   password: z.string().min(1, { message: "Password is required." }),
 });
 
-const GoogleIcon = () => (
-  <svg className="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M22.56 12.25C22.56 11.45 22.49 10.68 22.36 9.92H12V14.4H18.2C17.93 15.99 17.02 17.36 15.65 18.27V20.73H19.34C21.45 18.83 22.56 15.83 22.56 12.25Z" fill="#4285F4" />
-    <path d="M12 23C14.97 23 17.45 22.04 19.34 20.73L15.65 18.27C14.65 18.93 13.43 19.33 12 19.33C9.31 19.33 7.02 17.64 6.13 15.35H2.34V17.9C4.23 21.03 7.84 23 12 23Z" fill="#34A853" />
-    <path d="M6.13 15.35C5.89 14.65 5.75 13.88 5.75 13.1C5.75 12.32 5.89 11.55 6.13 10.85V8.29H2.34C1.5 9.87 1 11.43 1 13.1C1 14.77 1.5 16.33 2.34 17.9L6.13 15.35Z" fill="#FBBC05" />
-    <path d="M12 6.67C13.56 6.67 14.92 7.21 15.99 8.22L19.43 4.78C17.45 2.9 14.97 1.9 12 1.9C7.84 1.9 4.23 3.97 2.34 7.1L6.13 9.65C7.02 7.36 9.31 5.67 12 5.67V6.67H12Z" fill="#EA4335" />
-  </svg>
-);
-
 export default function LoginPage() {
-  const { user, loading, signInWithEmail, signInWithGoogle } = useAuth();
+  const { user, loading, signInWithEmail } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [error, setError] = useState<string | null>(null);
@@ -56,14 +46,6 @@ export default function LoginPage() {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setError(null);
     const err = await signInWithEmail(values.email, values.password);
-    if (err) {
-      setError(err);
-    }
-  };
-
-  const handleGoogleSignIn = async () => {
-    setError(null);
-    const err = await signInWithGoogle();
     if (err) {
       setError(err);
     }
@@ -139,22 +121,6 @@ export default function LoginPage() {
               </Button>
             </form>
           </Form>
-
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <Separator />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">
-                Or continue with
-              </span>
-            </div>
-          </div>
-
-          <Button variant="outline" className="w-full" onClick={handleGoogleSignIn}>
-            <GoogleIcon />
-            Sign in with Google
-          </Button>
 
         </CardContent>
         <CardFooter className="justify-center text-sm">
