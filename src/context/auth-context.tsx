@@ -31,6 +31,7 @@ const getFriendlyErrorMessage = (error: FirebaseError): string => {
       return 'Please enter a valid email address.';
     case 'auth/user-not-found':
     case 'auth/wrong-password':
+    case 'auth/invalid-credential':
       return 'Invalid email or password.';
     case 'auth/email-already-in-use':
       return 'This email address is already in use.';
