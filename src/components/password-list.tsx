@@ -73,7 +73,7 @@ export function PasswordList() {
             <CardTitle className="text-xl sm:text-2xl font-bold">
               Your Passwords
             </CardTitle>
-            <div className="flex flex-col-reverse sm:flex-row items-center gap-2 w-full sm:w-auto">
+            <div className="flex flex-row items-center gap-2 w-full sm:w-auto">
               {hasPasswords && (
                 <div className="relative w-full sm:w-64">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -88,7 +88,7 @@ export function PasswordList() {
               <Button
                 onClick={() => setAddDialogOpen(true)}
                 size="sm"
-                className="sm:size-auto py-2 w-full sm:w-auto"
+                className="shrink-0"
               >
                 <PlusCircle className="mr-0 sm:mr-2 h-4 w-4" />
                 <span className="hidden sm:inline">Add New</span>
