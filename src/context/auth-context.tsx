@@ -29,10 +29,10 @@ const getFriendlyErrorMessage = (error: FirebaseError): string => {
   switch (error.code) {
     case 'auth/invalid-email':
       return 'Please enter a valid email address.';
+    case 'auth/invalid-credential':
     case 'auth/user-not-found':
     case 'auth/wrong-password':
-    case 'auth/invalid-credential':
-      return 'Invalid email or password.';
+      return 'Invalid email or password. Please check your credentials and try again.';
     case 'auth/email-already-in-use':
       return 'This email address is already in use.';
     case 'auth/weak-password':
@@ -44,6 +44,7 @@ const getFriendlyErrorMessage = (error: FirebaseError): string => {
     case 'auth/unauthorized-domain':
         return 'This domain is not authorized for authentication. Please contact support.';
     default:
+      console.error("Unhandled Firebase Error:", error);
       return 'An unexpected error occurred. Please try again.';
   }
 }
@@ -74,7 +75,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       router.push("/");
       return null;
     } catch (error) {
-      console.error("Error signing in", error);
       return getFriendlyErrorMessage(error as FirebaseError);
     }
   };
@@ -85,7 +85,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       router.push("/login?signup=success");
       return null;
     } catch (error) {
-      console.error("Error signing up", error);
       return getFriendlyErrorMessage(error as FirebaseError);
     }
   }
@@ -97,7 +96,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       router.push("/");
       return null;
     } catch (error) {
-        console.error("Error signing in with Google", error);
         return getFriendlyErrorMessage(error as FirebaseError);
     }
   }
